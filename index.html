@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Historia – Łowca Źródeł</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg1:#7c5cff;--bg2:#3bb2ff;--card:#ffffff;--ink:#231f3d;--muted:#6b6790;--line:#e8e4ff;
+  --soft:#f4f1ff;--good:#22b866;--good-d:#178a4c;--good-bg:#d9f7e6;--bad:#ff5d5d;--bad-d:#c93b3b;--bad-bg:#ffe0e0;
+  --gold:#ffc01f;--btn:#7c5cff;--btn-d:#5a3fd6;
+  --c1:#ff7a59;--c1d:#d9573a;--c2:#2fb5ff;--c2d:#1a8ad1;--c3:#a35cff;--c3d:#7a3bd1;--c4:#22c58b;--c4d:#149768;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg1:#2a1d66;--bg2:#12325e;--card:#1f1b3d;--ink:#f3f1ff;--muted:#aaa5d6;--line:#37306a;--soft:#2a2555;
+    --good-bg:#143a29;--bad-bg:#472024;
+  }
+}
+:root[data-theme="dark"]{
+  --bg1:#2a1d66;--bg2:#12325e;--card:#1f1b3d;--ink:#f3f1ff;--muted:#aaa5d6;--line:#37306a;--soft:#2a2555;
+  --good-bg:#143a29;--bad-bg:#472024;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.35;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none;z-index:0}
+body::before{width:260px;height:260px;top:-80px;right:-80px}
+body::after{width:200px;height:200px;bottom:-60px;left:-60px}
+.wrap{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:14px 14px 30px}
+
+/* buttons */
+button{font-family:inherit}
+.btn{display:block;width:100%;border:0;border-radius:18px;padding:15px 18px;font-size:18px;font-weight:800;color:#fff;
+  background:var(--btn);box-shadow:0 5px 0 var(--btn-d);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--btn-d)}
+.btn.green{background:var(--good);box-shadow:0 5px 0 var(--good-d)}
+.btn.green:active{box-shadow:0 1px 0 var(--good-d)}
+.btn.ghost{background:rgba(255,255,255,.18);box-shadow:0 5px 0 rgba(0,0,0,.18);margin-top:12px}
+.chip{background:rgba(255,255,255,.22);color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:800;font-size:15px;backdrop-filter:blur(4px)}
+button.chip{cursor:pointer}
+
+/* home */
+.hero{display:flex;align-items:center;gap:12px;margin:6px 0 14px;color:#fff}
+.owl{font-size:64px;line-height:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.18));animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.bubble{position:relative;background:var(--card);color:var(--ink);border-radius:18px;padding:10px 14px;font-weight:700;font-size:16px;flex:1;box-shadow:0 4px 0 rgba(0,0,0,.14)}
+.bubble::before{content:"";position:absolute;left:-9px;top:22px;border:9px solid transparent;border-right-color:var(--card);border-left:0}
+h1.title{color:#fff;font-size:30px;margin:0 0 2px;text-shadow:0 3px 0 rgba(0,0,0,.18);letter-spacing:.3px}
+.xpcard{background:var(--card);border-radius:20px;padding:12px 14px;margin-bottom:14px;box-shadow:0 5px 0 rgba(0,0,0,.14)}
+.xprow{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:8px}
+.xprow small{color:var(--muted);font-weight:700}
+.bar{height:14px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--gold),#ff9a3c);transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{position:relative;border:0;border-radius:22px;padding:14px 12px 12px;color:#fff;text-align:left;cursor:pointer;
+  background:var(--c);box-shadow:0 6px 0 var(--cd);transition:transform .08s,box-shadow .08s;min-height:132px;display:flex;flex-direction:column}
+.tile:active{transform:translateY(5px);box-shadow:0 1px 0 var(--cd)}
+.tile .ic{font-size:38px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.15))}
+.tile b{font-size:17px;line-height:1.15;display:block}
+.tile span{font-size:12.5px;opacity:.95;margin-top:3px;display:block;font-weight:600}
+.tile .rec{margin-top:auto;padding-top:6px;font-size:12px;font-weight:800;opacity:.95}
+.tile.wide{grid-column:1 / -1;min-height:0;flex-direction:row;align-items:center;gap:12px}
+.tile.wide .ic{margin:0;font-size:42px}
+.tile.wide .rec{margin:0;padding:0}
+
+/* game */
+.top{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.track{position:relative;flex:1;height:16px;background:rgba(255,255,255,.28);border-radius:99px}
+.track>i{position:absolute;left:0;top:0;height:100%;background:var(--gold);border-radius:99px;transition:width .35s;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.track>em{position:absolute;top:50%;font-style:normal;font-size:24px;transform:translate(-50%,-52%);transition:left .35s;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.mascot{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.mascot .owl{font-size:52px;animation:none}
+.mascot .owl.happy{animation:hop .5s}
+.mascot .owl.sad{animation:shake .4s}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-16px) rotate(-6deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.card{background:var(--card);border-radius:24px;padding:16px;box-shadow:0 6px 0 rgba(0,0,0,.14)}
+.card.pop{animation:pop .3s}
+@keyframes pop{0%{transform:scale(.94);opacity:.4}70%{transform:scale(1.02)}100%{transform:scale(1);opacity:1}}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--tc,var(--btn));border-radius:99px;padding:4px 11px;margin-bottom:10px}
+.bigicon{font-size:64px;text-align:center;line-height:1;margin:2px 0 8px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.1))}
+.q{font-size:20px;font-weight:800;margin:0 0 14px;text-align:center}
+.ctx{background:var(--soft);border-radius:14px;padding:11px 13px;margin:0 0 12px;font-size:16px;font-weight:600;text-align:center}
+.ctx mark{background:var(--gold);color:#3a2a00;border-radius:6px;padding:1px 6px;font-weight:800}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{position:relative;display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:16px;padding:13px 14px;font-size:16.5px;font-weight:800;color:#fff;
+  text-align:left;background:var(--c);box-shadow:0 5px 0 var(--cd);cursor:pointer;transition:transform .08s,box-shadow .08s,opacity .2s}
+.opt:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 var(--cd)}
+.opt .oi{font-size:28px;line-height:1}
+.opts.two .opt{flex-direction:column;justify-content:center;text-align:center;padding:18px 10px;font-size:17px}
+.opts.two .opt .oi{font-size:40px}
+.opt:disabled{cursor:default}
+.opt.dim{opacity:.35}
+.opt.good{outline:4px solid var(--good);outline-offset:2px;animation:hop .5s}
+.opt.bad{outline:4px solid var(--bad);outline-offset:2px;animation:shake .4s}
+.opt.good::after{content:"✓";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:26px;background:var(--good);border-radius:50%;width:32px;height:32px;display:grid;place-items:center}
+.opt.bad::after{content:"✗";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:24px;background:var(--bad);border-radius:50%;width:32px;height:32px;display:grid;place-items:center}
+.why{margin-top:14px;padding:12px 14px;border-radius:16px;font-size:15.5px;font-weight:600}
+.why.ok{background:var(--good-bg);border-left:6px solid var(--good)}
+.why.no{background:var(--bad-bg);border-left:6px solid var(--bad)}
+.why b{display:block;font-size:17px;margin-bottom:2px}
+
+/* finish */
+.fin{text-align:center;color:var(--ink)}
+.fin .owl{font-size:80px}
+.stars{font-size:52px;letter-spacing:6px;margin:4px 0}
+.stars span{display:inline-block;opacity:.25;filter:grayscale(1)}
+.stars span.on{opacity:1;filter:none;animation:starpop .5s both}
+@keyframes starpop{0%{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.35) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.pts{font-size:46px;font-weight:900;margin:0;color:var(--btn)}
+.stat{display:flex;justify-content:space-between;background:var(--soft);border-radius:14px;padding:10px 14px;margin-top:8px;font-weight:800}
+.newrec{display:inline-block;margin:8px 0 2px;background:var(--gold);color:#3a2a00;font-weight:900;border-radius:99px;padding:6px 14px}
+.lvlup{margin-top:10px;background:linear-gradient(90deg,#ff9a3c,#ff5d8f);color:#fff;font-weight:900;border-radius:16px;padding:12px;animation:pop .5s}
+
+/* cheat */
+.cheat{display:grid;gap:10px}
+.cheat .ci{display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:18px;padding:12px 14px;box-shadow:0 4px 0 rgba(0,0,0,.12);border-left:8px solid var(--c)}
+.cheat .ci .em{font-size:32px;line-height:1}
+.cheat .ci b{font-size:17px;display:block}
+.cheat .ci p{margin:2px 0 0;font-size:15px;font-weight:600}
+
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.note{color:rgba(255,255,255,.85);font-size:13px;text-align:center;margin-top:16px;font-weight:600}
+.school{color:rgba(255,255,255,.9);font-weight:700;font-size:13px;margin:-2px 0 4px}
+.owl.dogs{font-size:46px;letter-spacing:-6px;white-space:nowrap}
+.fin .owl.dogs{font-size:64px}
+/* klockowy, „gamingowy” styl */
+.btn,.opt,.tile,.card,.xpcard,.bubble,.why,.ctx,.stat,.lvlup,.cheat .ci,.chip,.tag,.newrec{border-radius:10px}
+.bar,.track,.track>i,.bar>i{border-radius:4px}
+.tile{box-shadow:0 6px 0 var(--cd),0 0 0 3px rgba(0,0,0,.12)}
+.opt{box-shadow:0 5px 0 var(--cd),0 0 0 2px rgba(0,0,0,.12)}
+.bubble::before{border-width:8px}
+.fl{display:block;font-weight:800;font-size:15px;margin-bottom:12px;color:var(--ink)}
+.fl input{display:block;width:100%;margin-top:6px;padding:12px 14px;font:inherit;font-size:17px;font-weight:600;color:var(--ink);background:var(--soft);border:3px solid var(--line);border-radius:10px;outline:none}
+.fl input:focus{border-color:var(--btn)}
+.fnote{font-size:13px;color:var(--muted);font-weight:600;margin:0 0 8px}
+.ferr{color:var(--bad);font-weight:800;min-height:20px;margin-bottom:6px}
+.prow{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.ptype,.pname{font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:var(--soft);border:3px solid var(--line);border-radius:10px;padding:11px 10px;outline:none;min-width:0}
+.ptype{flex:0 0 44%}
+.pname{flex:1}
+.ptype:focus,.pname:focus{border-color:var(--btn)}
+.pdel{flex:0 0 auto;width:40px;height:44px;border:0;border-radius:10px;background:var(--bad-bg);color:var(--bad);font-size:18px;font-weight:900;cursor:pointer}
+.padd{display:block;width:100%;margin:0 0 14px;padding:12px;border:3px dashed var(--line);border-radius:10px;background:transparent;color:var(--btn);font:inherit;font-size:16px;font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ================= TREŚĆ (łatwo edytować) ================= */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let PROFILE={name:"",mama:"",tata:"",pets:"",school:""};
+let KID="Gracz";
+let DOGS=[{n:"Sowa",e:"🦉"}];
+const PET_TYPES=[
+ {k:"pies",l:"Pies",e:["🐶","🐕"],s:"Hau"},
+ {k:"kot",l:"Kot",e:["🐱","🐈"],s:"Miau"},
+ {k:"chomik",l:"Chomik",e:["🐹"],s:"Piip"},
+ {k:"krolik",l:"Królik",e:["🐰","🐇"],s:"Hop"},
+ {k:"papuga",l:"Papuga",e:["🦜"],s:"Ćwir"},
+ {k:"rybka",l:"Rybka",e:["🐠","🐟"],s:"Chlup"},
+ {k:"zolw",l:"Żółw",e:["🐢"],s:"Hej"},
+ {k:"kon",l:"Koń",e:["🐴"],s:"Iha"},
+ {k:"mysz",l:"Myszka",e:["🐭"],s:"Piii"},
+ {k:"waz",l:"Wąż",e:["🐍"],s:"Sss"},
+ {k:"inne",l:"Inne zwierzę",e:["🐾"],s:"Super"}
+];
+function normalizePets(p){
+  if(Array.isArray(p)) return p.filter(r=>r&&typeof r==="object").map(r=>({t:String(r.t||"inne"),n:String(r.n||"")}));
+  if(typeof p==="string") return p.split(/,|;|\si\s/i).map(s=>s.trim()).filter(Boolean).map(n=>({t:"inne",n}));
+  return [];
+}
+function applyProfile(p){
+  PROFILE=p; KID=esc((p.name||"").trim()||"Gracz");
+  const list=normalizePets(p.pets).slice(0,3), seen={};
+  DOGS=list.length ? list.map(r=>{
+    const T=PET_TYPES.find(t=>t.k===r.t)||PET_TYPES[PET_TYPES.length-1];
+    const c=seen[T.k]=(seen[T.k]||0)+1;
+    return {n:esc(r.n.trim()||T.l),e:T.e[(c-1)%T.e.length],s:T.s};
+  }) : [{n:"Sowa",e:"🦉",s:"Uhu"}];
+}
+const helperNames=()=>{const n=DOGS.map(d=>d.n);return n.length>1?n.slice(0,-1).join(", ")+" i "+n[n.length-1]:n[0];};
+const helperEmoji=()=>DOGS.map(d=>d.e).join("");
+function parentsProud(){
+  const m=(PROFILE.mama||"").trim(), t=(PROFILE.tata||"").trim();
+  if(m&&t) return "Mama "+esc(m)+" i tata "+esc(t)+" będą z Ciebie dumni.";
+  if(m) return "Mama "+esc(m)+" będzie z Ciebie dumna.";
+  if(t) return "Tata "+esc(t)+" będzie z Ciebie dumny.";
+  return "Możesz być z siebie dumny.";
+}
+
+const TYPES = {
+  "Pisane":{icon:"📜",c:"var(--c1)",cd:"var(--c1d)"},
+  "Materialne":{icon:"🏺",c:"var(--c2)",cd:"var(--c2d)"},
+  "Ikonograficzne":{icon:"🖼️",c:"var(--c3)",cd:"var(--c3d)"},
+  "Ustne":{icon:"🗣️",c:"var(--c4)",cd:"var(--c4d)"}
+};
+const PAL = [["var(--c1)","var(--c1d)"],["var(--c2)","var(--c2d)"],["var(--c3)","var(--c3d)"],["var(--c4)","var(--c4d)"]];
+
+const DEF = [
+ {q:"Czym zajmuje się historia?", o:["Badaniem przeszłości człowieka","Badaniem skał i minerałów","Przewidywaniem przyszłości","Badaniem zwierząt"], a:0, why:"Historia to nauka o przeszłości – o tym, co działo się z ludźmi i światem dawniej."},
+ {q:"Co to jest genealogia?", o:["Nauka o pochodzeniu i pokrewieństwie rodzin","Nauka o gwiazdach","Nauka o dawnych budowlach","Zbiór dawnych legend"], a:0, why:"Genealogia bada rody i pochodzenie ludzi. Jej efektem jest np. drzewo genealogiczne."},
+ {q:"Co przedstawia drzewo genealogiczne?", o:["Powiązania rodzinne – przodków i potomków","Mapę dawnych lasów","Listę wydarzeń w kolejności dat","Rodzaje źródeł historycznych"], a:0, why:"Drzewo genealogiczne pokazuje, kto z kim jest spokrewniony: rodziców, dziadków, pradziadków itd."},
+ {q:"Przyczyna to…", o:["to, co wywołało dane zdarzenie","to, co stało się po zdarzeniu","dokument z przeszłości","opowieść przekazywana ustnie"], a:0, why:"Przyczyna odpowiada na pytanie: DLACZEGO coś się stało?"},
+ {q:"Skutek to…", o:["to, co wydarzyło się w wyniku zdarzenia","to, co wywołało zdarzenie","nazwa dawnego przedmiotu","nauka o rodzie"], a:0, why:"Skutek odpowiada na pytanie: CO SIĘ STAŁO w rezultacie?"},
+ {q:"Które zdanie najlepiej opisuje źródło historyczne?", o:["Wszystko, co przetrwało z przeszłości i daje o niej wiedzę","Tylko książka z biblioteki","Tylko przedmioty z muzeum","Tylko opowieść dziadka"], a:0, why:"Źródłem historycznym może być dokument, przedmiot, obraz albo relacja – wszystko, co mówi nam o przeszłości."},
+ {q:"Pytanie „dlaczego to się stało?” to szukanie…", o:["przyczyny","skutku","źródła ustnego","drzewa"], a:0, why:"Kiedy pytasz „dlaczego?”, szukasz przyczyny."},
+ {q:"Pytanie „co z tego wynikło?” to szukanie…", o:["skutku","przyczyny","genealogii","źródła pisanego"], a:0, why:"Kiedy pytasz „co z tego wynikło?”, szukasz skutku."},
+ {q:"Do czego historycy używają źródeł historycznych?", o:["Do poznawania i odtwarzania przeszłości","Do wymyślania nowych wydarzeń","Do liczenia dat w kalendarzu","Do tworzenia map pogody"], a:0, why:"Bez źródeł nie wiedzielibyśmy, co działo się dawniej."},
+ {q:"Kto bada dzieje rodów i rodzin?", o:["Genealog","Historyk sztuki","Geolog","Botanik"], a:0, why:"Osoba badająca pochodzenie rodzin to genealog."},
+ {q:"Ile jest głównych rodzajów źródeł w tej grze?", o:["4: pisane, materialne, ikonograficzne, ustne","2: stare i nowe","3: małe, średnie, duże","6: każdy kolor osobno"], a:0, why:"Cztery rodzaje: pisane, materialne, ikonograficzne i ustne."}
+];
+
+const TYPEDEF = [
+ {q:"Źródła PISANE to…", o:["teksty: kroniki, listy, dokumenty","przedmioty i budowle","obrazy i zdjęcia","opowieści przekazywane głosem"], a:0, why:"Pisane = wszystko, co zapisano słowami: kroniki, listy, pamiętniki, gazety, dokumenty."},
+ {q:"Źródła MATERIALNE to…", o:["przedmioty i budowle z przeszłości","zapisane księgi","obrazy i rysunki","legendy i wspomnienia"], a:0, why:"Materialne = rzeczy, które można dotknąć: narzędzia, ubrania, monety, ruiny, budowle."},
+ {q:"Źródła IKONOGRAFICZNE to…", o:["obrazy: malowidła, rysunki, fotografie","narzędzia i broń","listy i pamiętniki","opowieści dziadków"], a:0, why:"Ikonograficzne = przedstawienia obrazowe: obrazy, rysunki, fotografie, plakaty, mapy."},
+ {q:"Źródła USTNE to…", o:["przekazy opowiadane z pokolenia na pokolenie","kroniki spisane na pergaminie","zabytkowe budynki","stare fotografie"], a:0, why:"Ustne = to, co ktoś opowiada: legendy, podania, pieśni, wspomnienia, relacje świadków."},
+ {q:"Słowo „ikona” oznacza obraz. Do jakich źródeł pasuje?", o:["Ikonograficzne","Pisane","Materialne","Ustne"], a:0, why:"„Ikonografia” pochodzi od słowa oznaczającego obraz – stąd źródła ikonograficzne to obrazy."}
+];
+
+// [nazwa, rodzaj, emoji]
+const SORT = [
+ ["Kronika","Pisane","📖"],["List z dawnych czasów","Pisane","✉️"],["Pamiętnik","Pisane","📔"],["Dokument (akt urodzenia)","Pisane","📄"],["Gazeta sprzed 100 lat","Pisane","📰"],["Testament","Pisane","📜"],
+ ["Miecz rycerza","Materialne","⚔️"],["Moneta z dawnych czasów","Materialne","🪙"],["Ruiny zamku","Materialne","🏰"],["Garnek wykopany z ziemi","Materialne","🏺"],["Stare narzędzia rolnicze","Materialne","🪓"],["Zabytkowy budynek","Materialne","🏛️"],
+ ["Obraz przedstawiający bitwę","Ikonograficzne","🎨"],["Fotografia sprzed 80 lat","Ikonograficzne","📷"],["Rysunek naskalny","Ikonograficzne","🦬"],["Plakat z czasów wojny","Ikonograficzne","🪧"],["Malowidło na ścianie","Ikonograficzne","🖌️"],["Dawna mapa","Ikonograficzne","🗺️"],
+ ["Legenda o smoku wawelskim","Ustne","🐉"],["Opowieść dziadka o dzieciństwie","Ustne","👴"],["Wspomnienia świadka wydarzeń","Ustne","💬"],["Dawna pieśń ludowa","Ustne","🎵"],["Podanie przekazywane z pokolenia na pokolenie","Ustne","🌳"],["Relacja babci o wojnie","Ustne","👵"]
+];
+
+// [zdanie z {wyróżnieniem}, wyróżnione, odpowiedź]
+const CE = [
+ ["Padał ulewny deszcz, dlatego rzeka wylała.","Ulewny deszcz","Przyczyna","🌧️"],
+ ["Padał ulewny deszcz, dlatego rzeka wylała.","Wylanie rzeki","Skutek","🌊"],
+ ["Wybuchł pożar, więc przyjechała straż pożarna.","Wybuch pożaru","Przyczyna","🔥"],
+ ["Wybuchł pożar, więc przyjechała straż pożarna.","Przyjazd straży","Skutek","🚒"],
+ ["Zabrakło jedzenia, dlatego ludzie ruszyli szukać nowych ziem.","Brak jedzenia","Przyczyna","🍖"],
+ ["Zabrakło jedzenia, dlatego ludzie ruszyli szukać nowych ziem.","Wędrówka w poszukiwaniu ziem","Skutek","🚶"],
+ ["Wynaleziono druk, więc książki stały się tańsze i dostępniejsze.","Wynalezienie druku","Przyczyna","🖨️"],
+ ["Wynaleziono druk, więc książki stały się tańsze i dostępniejsze.","Tańsze książki","Skutek","📚"],
+ ["Kraj został najechany, dlatego wybuchła wojna obronna.","Najazd na kraj","Przyczyna","🏴"],
+ ["Kraj został najechany, dlatego wybuchła wojna obronna.","Wojna obronna","Skutek","🛡️"],
+ ["Przez suszę nie urosło zboże, więc zapanował głód.","Susza","Przyczyna","☀️"],
+ ["Przez suszę nie urosło zboże, więc zapanował głód.","Głód","Skutek","🌾"],
+ ["Uczeń nie powtórzył materiału, dlatego dostał słabą ocenę z kartkówki.","Brak powtórki","Przyczyna","🙈"],
+ ["Uczeń nie powtórzył materiału, dlatego dostał słabą ocenę z kartkówki.","Słaba ocena","Skutek","📉"]
+];
+
+const CHEAT = [
+ ["🏛️","Historia","Nauka o przeszłości człowieka.","var(--c1)"],
+ ["🌳","Genealogia","Nauka o pochodzeniu i pokrewieństwie rodzin. Efekt: drzewo genealogiczne.","var(--c4)"],
+ ["🔥","Przyczyna","To, co wywołało zdarzenie (dlaczego?).","var(--c1)"],
+ ["💥","Skutek","To, co się stało w wyniku zdarzenia (co z tego wynikło?).","var(--c2)"],
+ ["🔎","Źródło historyczne","Wszystko, co przetrwało z przeszłości i daje o niej wiedzę.","var(--c3)"],
+ ["📜","Pisane","Kroniki, listy, pamiętniki, dokumenty, gazety.","var(--c1)"],
+ ["🏺","Materialne","Narzędzia, broń, monety, ruiny, budowle, ubrania.","var(--c2)"],
+ ["🖼️","Ikonograficzne","Obrazy, rysunki, fotografie, plakaty, mapy.","var(--c3)"],
+ ["🗣️","Ustne","Legendy, podania, pieśni, wspomnienia, relacje świadków.","var(--c4)"]
+];
+
+const LEVELS = [
+ {xp:0,name:"Nowy Gracz",em:"🎮"},
+ {xp:150,name:"Odkrywca",em:"🧭"},
+ {xp:400,name:"Łowca Źródeł",em:"🏹"},
+ {xp:800,name:"Kronikarz",em:"📚"},
+ {xp:1500,name:"Mistrz Historii",em:"👑"}
+];
+
+const OKS = () => ["Świetnie, "+KID+"!","Brawo!","Tak trzymaj, "+KID+"!","Super!","Mistrzu!","Rewelacja!","Idealnie, "+KID+"!",(DOGS[0].s||"Super")+"! Dobra robota!"];
+const NOS = () => ["Spokojnie, wrócimy do tego!","Prawie! Zapamiętaj to, "+KID+".","Nic się nie stało, uczymy się!","Ojej, to wróci za chwilę.","Nie martw się, "+KID+", następnym razem wyjdzie!"];
+
+/* ================= NARZĘDZIA ================= */
+const $app = document.getElementById("app");
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+let save = {xp:0,best:{},mute:false};
+try { Object.assign(save, JSON.parse(localStorage.getItem("hist_save2")||"{}")); } catch(e){}
+function persist(){ try{ localStorage.setItem("hist_save2", JSON.stringify(save)); }catch(e){} }
+function levelOf(xp){ let i=0; LEVELS.forEach((l,k)=>{ if(xp>=l.xp) i=k; }); return i; }
+
+/* dźwięk */
+let actx=null;
+function tone(f,t,d,type){ try{
+  actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type=type||"sine"; o.frequency.value=f; o.connect(g); g.connect(actx.destination);
+  const s=actx.currentTime+t; g.gain.setValueAtTime(.0001,s); g.gain.exponentialRampToValueAtTime(.18,s+.02); g.gain.exponentialRampToValueAtTime(.0001,s+d);
+  o.start(s); o.stop(s+d+.02);
+}catch(e){} }
+function sfx(kind){
+  if(save.mute) return;
+  if(kind==="ok"){ tone(660,0,.14,"triangle"); tone(880,.1,.2,"triangle"); }
+  else if(kind==="no"){ tone(220,0,.22,"sawtooth"); tone(170,.14,.28,"sawtooth"); }
+  else if(kind==="win"){ [523,659,784,1046].forEach((f,i)=>tone(f,i*.12,.25,"triangle")); }
+}
+
+/* konfetti */
+const cv=document.getElementById("fx"), cx=cv.getContext("2d");
+let parts=[], raf=null;
+function fit(){ cv.width=innerWidth*devicePixelRatio; cv.height=innerHeight*devicePixelRatio; }
+addEventListener("resize",fit); fit();
+function confetti(n,x,y){
+  const cols=["#ffc01f","#ff5d8f","#2fb5ff","#22c58b","#a35cff","#ff7a59"];
+  const px=(x==null?innerWidth/2:x)*devicePixelRatio, py=(y==null?innerHeight*.35:y)*devicePixelRatio;
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2, s=(4+Math.random()*9)*devicePixelRatio;
+    parts.push({x:px,y:py,vx:Math.cos(a)*s,vy:Math.sin(a)*s-6*devicePixelRatio,r:(4+Math.random()*5)*devicePixelRatio,c:pick(cols),rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:1});
+  }
+  if(!raf) raf=requestAnimationFrame(loop);
+}
+function loop(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{ p.vy+=.35*devicePixelRatio; p.x+=p.vx; p.y+=p.vy; p.vx*=.99; p.rot+=p.vr; p.life-=.012;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.rot); cx.globalAlpha=Math.max(p.life,0); cx.fillStyle=p.c; cx.fillRect(-p.r,-p.r/2,p.r*2,p.r); cx.restore(); });
+  parts=parts.filter(p=>p.life>0 && p.y<cv.height+50);
+  if(parts.length) raf=requestAnimationFrame(loop); else { raf=null; cx.clearRect(0,0,cv.width,cv.height); }
+}
+
+/* ================= BUDOWANIE PYTAŃ ================= */
+function choice(o){ // o: {tag,tc,icon,ctx,q,options,correct,why}
+  return o;
+}
+function buildDef(list,tag,tc,icon){
+  return list.map(x=>({tag,tc,icon,q:x.q,options:shuffle(x.o.map((t,i)=>({t,ok:i===x.a}))),why:x.why}));
+}
+function buildSort(){
+  return SORT.map(([name,type,em])=>({
+    tag:"Segregator źródeł",tc:"var(--c2d)",icon:em,q:"Jakiego rodzaju źródłem jest: „"+name+"”?",
+    options:Object.keys(TYPES).map(k=>({t:k,ok:k===type,icon:TYPES[k].icon,c:TYPES[k].c,cd:TYPES[k].cd})),
+    why:"„"+name+"” to źródło "+type.toLowerCase()+".", grid:"two"
+  }));
+}
+function buildCE(){
+  return CE.map(([s,h,ans,em])=>({
+    tag:"Przyczyna czy skutek?",tc:"var(--c1d)",icon:em,
+    ctx:s, hl:h,
+    q:"Czy „"+h+"” to przyczyna, czy skutek?",
+    options:[{t:"Przyczyna",ok:ans==="Przyczyna",icon:"🔥",c:"var(--c1)",cd:"var(--c1d)"},{t:"Skutek",ok:ans==="Skutek",icon:"💥",c:"var(--c2)",cd:"var(--c2d)"}],
+    why:"„"+h+"” to "+ans.toLowerCase()+". "+(ans==="Przyczyna"?"Wywołało zdarzenie, więc odpowiada na „dlaczego?”.":"Wynikło ze zdarzenia, więc odpowiada na „co z tego wynikło?”."),
+    grid:"two"
+  }));
+}
+
+const MODES = {
+  def:{name:"Szybkie pytania",desc:"Pojęcia z lekcji",ic:"⚡",c:"var(--c1)",cd:"var(--c1d)",build:()=>shuffle(buildDef(DEF,"Szybkie pytania","var(--c1d)","💡")),n:10},
+  types:{name:"Rodzaje źródeł",desc:"Pisane, materialne…",ic:"🗂️",c:"var(--c3)",cd:"var(--c3d)",build:()=>shuffle(buildDef(TYPEDEF,"Rodzaje źródeł","var(--c3d)","🗂️")),n:5},
+  sort:{name:"Segregator",desc:"Przyporządkuj przykłady",ic:"🧺",c:"var(--c2)",cd:"var(--c2d)",build:()=>shuffle(buildSort()),n:12},
+  ce:{name:"Przyczyna czy skutek?",desc:"Co wywołało, co wynikło",ic:"🔥",c:"var(--c4)",cd:"var(--c4d)",build:()=>shuffle(buildCE()),n:10},
+  boss:{name:"Wielki finał",desc:"Mix wszystkiego – 20 pytań, bez litości!",ic:"🐲",c:"#ff5d8f",cd:"#c93b6a",wide:true,
+    build:()=>shuffle([].concat(
+      shuffle(buildDef(DEF,"Finał","#c93b6a","💡")).slice(0,6),
+      shuffle(buildDef(TYPEDEF,"Finał","#c93b6a","🗂️")).slice(0,3),
+      shuffle(buildSort()).slice(0,7),
+      shuffle(buildCE()).slice(0,4))),n:20}
+};
+
+/* ================= EKRANY ================= */
+let S=null;
+
+function home(msg){
+  if(!PROFILE.name) return welcome(false);
+  const li=levelOf(save.xp), L=LEVELS[li], N=LEVELS[li+1];
+  const pct = N ? Math.round((save.xp-L.xp)/(N.xp-L.xp)*100) : 100;
+  const rec = k => save.best[k]!=null ? "🏆 "+save.best[k] : "🏆 –";
+  $app.innerHTML = `
+    <div class="top"><h1 class="title" style="flex:1">Łowca Źródeł</h1>
+      <button class="chip" id="edit" title="Zmień dane">✏️</button>
+      <button class="chip" id="snd">${save.mute?"🔇":"🔊"}</button></div>
+    ${(PROFILE.school||"").trim()?`<div class="school">🏫 ${esc(PROFILE.school.trim())}</div>`:""}
+    <div class="hero"><div class="owl dogs">${helperEmoji()}</div><div class="bubble"><b>${helperNames()}:</b> ${msg||"Cześć, "+KID+"! Wyruszamy na wyprawę w przeszłość. Wybierz zadanie!"}</div></div>
+    <div class="xpcard">
+      <div class="xprow"><span>${KID} · ${L.em} ${L.name}</span><small>${N? save.xp+" / "+N.xp+" XP" : save.xp+" XP · MAX"}</small></div>
+      <div class="bar"><i style="width:0" data-w="${pct}"></i></div>
+    </div>
+    <div class="grid">
+      ${Object.keys(MODES).map(k=>{const m=MODES[k];return `<button class="tile ${m.wide?"wide":""}" style="--c:${m.c};--cd:${m.cd}" data-m="${k}">
+        <div class="ic">${m.ic}</div><div><b>${m.name}</b><span>${m.desc}</span></div><div class="rec">${rec(k)}</div></button>`}).join("")}
+      <button class="tile wide" style="--c:#8b86b8;--cd:#65608f" data-m="cheat"><div class="ic">📖</div><div><b>Ściąga</b><span>Przeczytaj definicje przed grą</span></div></button>
+    </div>
+    <p class="note">Błędne odpowiedzi wracają w tej samej rundzie, aż je opanujesz.</p>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ const b=$app.querySelector(".bar>i"); if(b) b.style.width=b.dataset.w+"%"; }));
+  document.getElementById("edit").onclick=()=>welcome(true);
+  document.getElementById("snd").onclick=()=>{ save.mute=!save.mute; persist(); document.getElementById("snd").textContent=save.mute?"🔇":"🔊"; if(!save.mute) sfx("ok"); };
+  $app.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{ const m=b.dataset.m; m==="cheat"?cheat():start(m); });
+}
+
+function loadProfile(){
+  try{ const p=JSON.parse(localStorage.getItem("hist_profile")||"null"); if(p&&p.name) applyProfile(p); }catch(e){}
+}
+function welcome(edit){
+  const v=k=>esc(PROFILE[k]||"");
+  const petRows=normalizePets(PROFILE.pets).slice(0,3).map(r=>({...r}));
+  $app.innerHTML=`
+    <h1 class="title">Łowca Źródeł</h1>
+    <div class="hero"><div class="owl">🦉</div><div class="bubble"><b>Sowa:</b> ${edit?"Chcesz coś zmienić? Popraw dane poniżej.":"Cześć! Zanim zaczniemy, opowiedz mi coś o sobie."}</div></div>
+    <div class="card">
+      <label class="fl">Jak masz na imię? *<input id="f_name" maxlength="30" autocomplete="off" value="${v("name")}"></label>
+      <label class="fl">Imię mamy<input id="f_mama" maxlength="30" autocomplete="off" value="${v("mama")}"></label>
+      <label class="fl">Imię taty<input id="f_tata" maxlength="30" autocomplete="off" value="${v("tata")}"></label>
+      <div class="fl" style="margin-bottom:6px">Twoje zwierzaki (do 3)</div>
+      <div id="pets"></div>
+      <button type="button" class="padd" id="padd">➕ Dodaj zwierzaka</button>
+      <label class="fl">Do jakiej szkoły chodzisz?<input id="f_school" maxlength="60" autocomplete="off" value="${v("school")}"></label>
+      <p class="fnote">Tylko imię jest wymagane. Reszta jest dla zabawy: zwierzaki będą Ci kibicować w grze, a rodzice się ucieszą, gdy pójdzie Ci świetnie.</p>
+      <p class="fnote">🔒 Te dane zostają tylko w przeglądarce na tym telefonie. Nigdzie się nie wysyłają.</p>
+      <div id="ferr" class="ferr"></div>
+      <button class="btn green" id="f_go">Zaczynamy! ➜</button>
+      ${edit?`<button class="btn ghost" id="f_cancel" style="color:var(--ink);background:var(--soft);box-shadow:0 5px 0 var(--line)">Anuluj</button>`:""}
+    </div>`;
+  const box=document.getElementById("pets"), addBtn=document.getElementById("padd");
+  function drawPets(focusLast){
+    box.innerHTML=petRows.map((r,i)=>`<div class="prow">
+      <select class="ptype" data-i="${i}" aria-label="Rodzaj zwierzaka">${PET_TYPES.map(t=>`<option value="${t.k}" ${t.k===r.t?"selected":""}>${t.e[0]} ${t.l}</option>`).join("")}</select>
+      <input class="pname" data-i="${i}" maxlength="20" placeholder="Imię zwierzaka" autocomplete="off" value="${esc(r.n)}">
+      <button type="button" class="pdel" data-i="${i}" aria-label="Usuń zwierzaka">✕</button></div>`).join("");
+    addBtn.style.display=petRows.length>=3?"none":"";
+    if(focusLast){ const ins=box.querySelectorAll(".pname"); if(ins.length) ins[ins.length-1].focus(); }
+  }
+  box.addEventListener("input",e=>{ if(e.target.classList.contains("pname")) petRows[+e.target.dataset.i].n=e.target.value; });
+  box.addEventListener("change",e=>{ if(e.target.classList.contains("ptype")) petRows[+e.target.dataset.i].t=e.target.value; });
+  box.addEventListener("click",e=>{ const b=e.target.closest(".pdel"); if(b){ petRows.splice(+b.dataset.i,1); drawPets(false); } });
+  addBtn.onclick=()=>{
+    if(petRows.length>=3) return;
+    const used=petRows.map(r=>r.t); const next=PET_TYPES.find(t=>!used.includes(t.k))||PET_TYPES[0];
+    petRows.push({t:next.k,n:""}); drawPets(true);
+  };
+  drawPets(false);
+  const go=()=>{
+    const name=document.getElementById("f_name").value.trim();
+    if(!name){ document.getElementById("ferr").textContent="Wpisz swoje imię, żebyśmy mogli zacząć."; document.getElementById("f_name").focus(); return; }
+    const p={name,mama:document.getElementById("f_mama").value.trim(),tata:document.getElementById("f_tata").value.trim(),
+      pets:petRows.filter(r=>r.n.trim()).map(r=>({t:r.t,n:r.n.trim()})),school:document.getElementById("f_school").value.trim()};
+    applyProfile(p);
+    try{ localStorage.setItem("hist_profile",JSON.stringify(p)); }catch(e){}
+    home(edit?"Zapisane! Wybierz zadanie.":null);
+  };
+  document.getElementById("f_go").onclick=go;
+  if(edit) document.getElementById("f_cancel").onclick=()=>home();
+  document.getElementById("f_name").addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+}
+
+function cheat(){
+  $app.innerHTML = `
+    <div class="top"><button class="chip" id="back">← Wróć</button><h1 class="title" style="font-size:24px;margin:0">Ściąga</h1></div>
+    <div class="cheat">${CHEAT.map(([e,t,d,c])=>`<div class="ci" style="--c:${c}"><div class="em">${e}</div><div><b>${t}</b><p>${d}</p></div></div>`).join("")}</div>
+    <button class="btn green" id="go" style="margin-top:16px">Gotowy? Zagrajmy! ⚡</button>`;
+  document.getElementById("back").onclick=()=>home();
+  document.getElementById("go").onclick=()=>start("def");
+}
+
+function start(mode){
+  const cfg=MODES[mode];
+  const items=cfg.build().slice(0,cfg.n);
+  S={mode,queue:items.slice(),total:items.length,done:0,score:0,streak:0,maxStreak:0,wrong:0,answered:false,xp0:save.xp};
+  render("Do dzieła, "+KID+"! Powodzenia! 🍀");
+}
+
+function render(say){
+  if(!S.queue.length) return finish();
+  const it=S.queue[0]; S.answered=false;
+  const pct=S.done/S.total*100;
+  const who=DOGS[(S.done+S.wrong)%DOGS.length];
+  let ctxHtml="";
+  if(it.ctx){
+    ctxHtml = markPhrase(it.ctx,it.hl);
+  }
+  $app.innerHTML=`
+    <div class="top">
+      <button class="chip" id="quit">✕</button>
+      <div class="track"><i style="width:${pct}%"></i><em style="left:${Math.max(pct,4)}%">🐾</em></div>
+      <span class="chip" id="cmb">🔥 ${S.streak}</span>
+    </div>
+    <div class="mascot"><div class="owl" id="owl">${who.e}</div><div class="bubble"><b>${who.n}:</b> <span id="say">${say||"Zastanów się…"}</span></div></div>
+    <div class="card pop">
+      <span class="tag" style="--tc:${it.tc}">${it.tag}</span>
+      ${it.icon?`<div class="bigicon">${it.icon}</div>`:""}
+      ${ctxHtml?`<div class="ctx">${ctxHtml}</div>`:""}
+      <p class="q">${it.q}</p>
+      <div class="opts ${it.grid||""}" id="opts">
+        ${it.options.map((o,i)=>{const p=PAL[i%4];return `<button class="opt" data-i="${i}" style="--c:${o.c||p[0]};--cd:${o.cd||p[1]}">${o.icon?`<span class="oi">${o.icon}</span>`:""}<span>${o.t}</span></button>`}).join("")}
+      </div>
+      <div id="fb"></div>
+    </div>`;
+  document.getElementById("quit").onclick=()=>{ if(confirm("Zakończyć rundę?")) home(); };
+  $app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b));
+}
+
+// dokładne fragmenty zdania do podświetlenia
+const HLMAP={
+ "Ulewny deszcz":"ulewny deszcz","Wylanie rzeki":"rzeka wylała","Wybuch pożaru":"Wybuchł pożar","Przyjazd straży":"przyjechała straż pożarna",
+ "Brak jedzenia":"Zabrakło jedzenia","Wędrówka w poszukiwaniu ziem":"ruszyli szukać nowych ziem","Wynalezienie druku":"Wynaleziono druk",
+ "Tańsze książki":"książki stały się tańsze i dostępniejsze","Najazd na kraj":"Kraj został najechany","Wojna obronna":"wybuchła wojna obronna",
+ "Susza":"suszę","Głód":"zapanował głód","Brak powtórki":"nie powtórzył materiału","Słaba ocena":"dostał słabą ocenę z kartkówki"
+};
+function markPhrase(sentence,phrase){
+  const sub=HLMAP[phrase];
+  if(!sub) return sentence;
+  const i=sentence.toLowerCase().indexOf(sub.toLowerCase());
+  if(i<0) return sentence;
+  return sentence.slice(0,i)+"<mark>"+sentence.slice(i,i+sub.length)+"</mark>"+sentence.slice(i+sub.length);
+}
+
+function answer(btn){
+  if(S.answered) return; S.answered=true;
+  const it=S.queue[0];
+  const chosen=it.options[+btn.dataset.i];
+  const ok=chosen.ok;
+  const rect=btn.getBoundingClientRect();
+  $app.querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    const o=it.options[+b.dataset.i];
+    if(o.ok) b.classList.add("good"); else if(b!==btn) b.classList.add("dim");
+  });
+  const owl=document.getElementById("owl"), say=document.getElementById("say");
+  if(ok){
+    S.streak++; S.maxStreak=Math.max(S.maxStreak,S.streak);
+    const gain=10+Math.min(S.streak-1,5)*2; S.score+=gain;
+    S.done++; S.queue.shift();
+    sfx("ok"); owl.classList.add("happy");
+    confetti(S.streak>=3?60:28, rect.left+rect.width/2, rect.top);
+    say.innerHTML = (S.streak>=3? "Seria x"+S.streak+"! 🔥 " : "")+pick(OKS())+" +"+gain;
+  } else {
+    btn.classList.add("bad");
+    S.streak=0; S.wrong++;
+    const item=S.queue.shift();
+    S.queue.splice(Math.min(S.queue.length,2+Math.floor(Math.random()*3)),0,item);
+    sfx("no"); owl.classList.add("sad");
+    say.innerHTML=pick(NOS());
+  }
+  document.getElementById("cmb").textContent="🔥 "+S.streak;
+  document.getElementById("fb").innerHTML=`
+    <div class="why ${ok?"ok":"no"}"><b>${ok?"Dobrze! 🎉":"Zapamiętaj! 💡"}</b>${it.why}</div>
+    <button class="btn ${ok?"green":""}" id="next" style="margin-top:14px">${S.queue.length?"Dalej ➜":"Zobacz wynik 🏁"}</button>`;
+  const nx=document.getElementById("next");
+  nx.onclick=()=>render();
+  nx.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function finish(){
+  const acc=Math.round(S.total/(S.total+S.wrong)*100);
+  const stars=acc>=90?3:acc>=70?2:1;
+  const prev=save.best[S.mode];
+  const isRec=prev==null||S.score>prev;
+  if(isRec) save.best[S.mode]=S.score;
+  const before=levelOf(save.xp);
+  save.xp+=S.score; persist();
+  const after=levelOf(save.xp);
+  const msg = stars===3?"Wspaniale, "+KID+"! "+parentsProud()+" Jesteś gotowy na kartkówkę!":stars===2?"Bardzo dobrze, "+KID+"! Jeszcze jedna runda i będzie perfekcyjnie.":"Dobry początek, "+KID+"! Powtórz jeszcze raz, a pójdzie lepiej.";
+  $app.innerHTML=`
+    <div class="card pop fin">
+      <div class="owl dogs">${helperEmoji()}</div>
+      <div class="bubble" style="display:inline-block;margin:6px 0 10px"><b>${helperNames()}:</b> ${msg}</div>
+      <div class="stars">${[0,1,2].map(i=>`<span class="${i<stars?"on":""}" style="animation-delay:${i*.25}s">⭐</span>`).join("")}</div>
+      <p class="pts">${S.score} pkt</p>
+      ${isRec?`<div class="newrec">🏆 Nowy rekord!</div>`:`<div style="color:var(--muted);font-weight:700;margin-top:4px">Rekord: ${prev}</div>`}
+      ${after>before?`<div class="lvlup">🎉 Nowy poziom: ${LEVELS[after].em} ${LEVELS[after].name}!</div>`:""}
+      <div class="stat"><span>🎯 Skuteczność</span><span>${acc}%</span></div>
+      <div class="stat"><span>🔥 Najdłuższa seria</span><span>${S.maxStreak}</span></div>
+      <div class="stat"><span>💡 Pomyłki (już poprawione)</span><span>${S.wrong}</span></div>
+      <div class="stat"><span>✨ Zdobyte XP</span><span>+${S.score}</span></div>
+    </div>
+    <button class="btn green" id="again" style="margin-top:16px">Jeszcze raz! 🔁</button>
+    <button class="btn ghost" id="menu">Wybierz inny tryb</button>`;
+  sfx("win"); confetti(stars===3?160:90);
+  if(stars===3) setTimeout(()=>confetti(90),450);
+  document.getElementById("again").onclick=()=>start(S.mode);
+  document.getElementById("menu").onclick=()=>home(after>before?"Awansowałeś, "+KID+"! Wybierz kolejne zadanie.":"Świetna robota, "+KID+"! Co teraz?");
+}
+
+loadProfile();
+home();
+</script>
+</body>
+</html>
